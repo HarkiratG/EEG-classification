@@ -12,7 +12,6 @@ csp_result.w_min3 = csp_result.eigenvectors(:, 3:-1:1); % max heap
 
 csp_result.w = [csp_result.w_max3, csp_result.w_min3];
 
-
 for i = 1:1001:size(class_A,2)
 	s_writing = csp_result.w'*class_A(:, i:i+1000);
 	s_eating = csp_result.w'*class_B(:, i:i+1000);

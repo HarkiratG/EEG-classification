@@ -101,32 +101,43 @@ accuracy_train_lda_matlab = sum(csp_train.labels'==lda_train_matlab)/size(lda_tr
 accuracy_test_lda_matlab  = sum(csp_test.labels'==lda_test_matlab)/size(lda_test_matlab,1)*100.0
 
 %% SVM
-svm_trainer = fitcsvm(csp_train.data',csp_train.labels', ...
+% order  = 2
+svm_trainer_2 = fitcsvm(csp_train.data',csp_train.labels', ...
 	'KernelFunction', 'polynomial', 'PolynomialOrder', 2);
 
-svm_train_matlab = predict(svm_trainer, csp_train.data');
-svm_test_matlab  = predict(svm_trainer, csp_test.data');
+svm_train_matlab = predict(svm_trainer_2, csp_train.data');
+svm_test_matlab  = predict(svm_trainer_2, csp_test.data');
 
-accuracy_train_svm = sum(csp_train.labels'==svm_train_matlab)/size(svm_train_matlab,1)*100.0
-accuracy_test_svm  = sum(csp_test.labels'==svm_test_matlab)/size(svm_test_matlab,1)*100.0
+accuracy_train_svm_order2 = sum(csp_train.labels'==svm_train_matlab)/size(svm_train_matlab,1)*100.0
+accuracy_test_svm_order2  = sum(csp_test.labels'==svm_test_matlab)/size(svm_test_matlab,1)*100.0
+
+% order = 6
+svm_trainer_6 = fitcsvm(csp_train.data',csp_train.labels', ...
+	'KernelFunction', 'polynomial', 'PolynomialOrder', 6);
+
+svm_train_matlab = predict(svm_trainer_6, csp_train.data');
+svm_test_matlab  = predict(svm_trainer_6, csp_test.data');
+
+accuracy_train_svm_order6 = sum(csp_train.labels'==svm_train_matlab)/size(svm_train_matlab,1)*100.0
+accuracy_test_svm_order6  = sum(csp_test.labels'==svm_test_matlab)/size(svm_test_matlab,1)*100.0
 
 %% plotting
 % topolot
-% load('chanloc.mat');
-% figure
-% set(gcf, 'Position', [5000, 5000, 1000, 2000])
-% for i = 1:1:6
-% 	subplot(2,3,i)
-% 	topoplot(csp_train.w(:,i),chanlocs,'style','both','electrodes','labelpoint');
-% 	title(i)
-% end
+load('chanloc.mat');
+figure
+set(gcf, 'Position', [5000, 5000, 1000, 2000])
+for i = 1:1:6
+	subplot(2,3,i)
+	topoplot(csp_train.w(:,i),chanlocs,'style','both','electrodes','labelpoint');
+	title(i)
+end
 
-% plotting LDA projections
+% % plotting LDA projections
 % figure
 % plot(lda.projected_writing_train)
 % hold on
 % plot(lda.projected_eating_train)
-
+% 
 % % custom LDA test classification
 % figure
 % set(gcf, 'Position', [250, 500, 500, 400])
@@ -134,7 +145,7 @@ accuracy_test_svm  = sum(csp_test.labels'==svm_test_matlab)/size(svm_test_matlab
 % hold on
 % plot(csp_test.labels, 'b')
 % title('custom LDA test classification');
-
+% 
 % % custom LDA train classification
 % figure
 % set(gcf, 'Position', [250, 50, 500, 400])
@@ -142,7 +153,7 @@ accuracy_test_svm  = sum(csp_test.labels'==svm_test_matlab)/size(svm_test_matlab
 % hold on
 % plot(csp_train.labels, 'b')
 % title('custom LDA train classification');
-
+% 
 % % MATLAB LDA test classification
 % figure
 % set(gcf, 'Position', [750, 500, 500, 400])
@@ -150,7 +161,7 @@ accuracy_test_svm  = sum(csp_test.labels'==svm_test_matlab)/size(svm_test_matlab
 % hold on
 % plot(csp_test.labels)
 % title('MATLAB LDA test classification');
-
+% 
 % % MATLAB LDA train classification
 % figure
 % set(gcf, 'Position', [750, 50, 500, 400])
@@ -158,14 +169,14 @@ accuracy_test_svm  = sum(csp_test.labels'==svm_test_matlab)/size(svm_test_matlab
 % hold on
 % plot(csp_train.labels)
 % title('MATLAB LDA train classification');
-
+% 
 % figure
 % plot(accel.time, accel.Accelerometer)
 % hold on
 % plot(writing_window(:), 0, 'b*')
 % plot(eating_window(:), 0, 'bo')
 % plot(accel.time, accel.labels)
-
+% 
 % figure
 % for i = 1:1:8
 % 	subplot(2,4,i)
@@ -174,13 +185,13 @@ accuracy_test_svm  = sum(csp_test.labels'==svm_test_matlab)/size(svm_test_matlab
 % 	plot(eeg.time, eeg.data_filt(i,:))
 % 	plot(eeg.time, eeg.labels*mean(eeg.data_filt(i,:)))
 % end
-
+% 
 % figure
 % for i = 1:1:8
 % 	subplot(2,4,i)
 % 	plot([1:1:27027], eeg.writing(i,:))
 % end
-
+% 
 % figure
 % for i = 1:1:8
 % 	subplot(2,4,i)
